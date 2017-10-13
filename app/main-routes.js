@@ -9,13 +9,13 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-         res.sendfile('./views/index.html');
-        // db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
-        //     if (err) {
-        //         return next(err);
-        //     }
-        //     res.send(dbResults.rows);
-        // });
+        // res.sendfile('./views/index.html');
+        db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
+            if (err) {
+                return next(err);
+            }
+            res.send(dbResults.rows);
+        });
     });
 
     // =====================================
