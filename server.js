@@ -46,7 +46,7 @@ app.use(bodyParser.json()); // request, response json support middleware
 
 // routes ======================================================================
 // load our routes and pass in our app and fully configured passport
-require('./app/routes')(app, null);
+require('./app/main-routes')(app, null);
 //require('./app/routes')(app, passport);
 
 // launch ======================================================================

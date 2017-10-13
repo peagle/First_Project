@@ -7,6 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "webpack": "webpack --config webpack.config.js",
+    "webpack:dev": "webpack",
     "start": "node %NODE_DEBUG_OPTION% clusters.js",
     "test": "mocha test"
   },
@@ -16,11 +18,14 @@
     "compression": "1.7.1",
     "cors": "2.8.4",
     "express": "4.16.1",
+    "express-session": "1.15.6",
     "helmet": "3.8.2",
     "morgan": "1.9.0",
     "pg": "7.3.0"
   },
   "devDependencies": {
-    "mocha": "3.5.3"
+    "mocha": "3.5.3",
+    "webpack": "3.7.1",
+    "webpack-dotenv-plugin": "2.0.2"
   }
 }

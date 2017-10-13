@@ -1,18 +1,21 @@
-const db = require('../config/database');
+const db = require('../config/database-config');
+const users = require('./users');
 
 module.exports = function(app, passport) {
+
+    app.use('/users', users);
 
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-        // res.render('index.html');
-        db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
-            if (err) {
-                return next(err);
-            }
-            res.send(dbResults.rows);
-        });
+         res.sendfile('./views/index.html');
+        // db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
+        //     if (err) {
+        //         return next(err);
+        //     }
+        //     res.send(dbResults.rows);
+        // });
     });
 
     // =====================================
@@ -22,8 +25,7 @@ module.exports = function(app, passport) {
     app.get('/login', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-       // res.render('login.ejs', { message: req.flash('loginMessage') });
-        res.send(200);
+        res.sendfile('./views/login.html');
     });
 
     // process the login form
@@ -37,7 +39,7 @@ module.exports = function(app, passport) {
 
         // render the page and pass in any flash data if it exists
         //res.render('signup.ejs', { message: req.flash('signupMessage') });
-        res.send(200);
+        res.sendfile('./views/signup.html');
     });
 
     // process the signup form
