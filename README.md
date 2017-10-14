@@ -4,7 +4,7 @@
 initialize app with npm and create project structure.
 ````
 .
-|	.env
+|   .env
 |   .env.default
 |   .gitignore
 |   clusters.js
