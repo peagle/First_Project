@@ -2,10 +2,11 @@
 
 ## App Structure
 initialize app with npm and create project structure.
-````.
-│	.env
-│   .env.default
-│   .gitignore
+````
+.
+|	.env
+|   .env.default
+|   .gitignore
 |   clusters.js
 |   package.json
 |   server.js
