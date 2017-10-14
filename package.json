@@ -1,10 +1,10 @@
 {
-  "name": "First_Project",
+  "name": "Portfolio",
   "version": "1.0.0",
   "description": "Portfolio",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "author": "peagle",
   "license": "ISC",
   "scripts": {
     "start": "node %NODE_DEBUG_OPTION% clusters.js",

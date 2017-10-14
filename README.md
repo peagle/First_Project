@@ -2,11 +2,10 @@
 
 ## App Structure
 initialize app with npm and create project structure.
-
-Portfolio
-|   .env
-|   .env.default
-|   .gitignore
+````.
+│	.env
+│   .env.default
+│   .gitignore
 |   clusters.js
 |   package.json
 |   server.js
@@ -39,6 +38,7 @@ Portfolio
 |   index.js
 |   user.js
 |   user.test.js
+````
 
 
 ## Nodejs Framework
