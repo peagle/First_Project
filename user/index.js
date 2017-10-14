@@ -1,5 +1,5 @@
-// const user = require ('user');
-//
-// module.exports({
-//     print: user.printUser();
-// })
+const user = require('./user.bl');
+
+module.exports = {
+    user: user
+};

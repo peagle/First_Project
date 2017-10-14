@@ -1,44 +1,34 @@
 const db = require('../config/database-config');
-const users = require('./users');
+
+const userRoutes = require('../user/routes');
 
 module.exports = function(app, passport) {
 
-    app.use('/users', users);
+    // ROUTES REGISTRATION ==================================================
+    app.use('/users', userRoutes);
 
-    // =====================================
-    // HOME PAGE (with login links) ========
-    // =====================================
+
+    // HOME PAGE (with login links) =========================================
     app.get('/', function(req, res) {
-        // res.sendfile('./views/index.html');
-        db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
-            if (err) {
-                return next(err);
-            }
-            res.send(dbResults.rows);
-        });
+        res.sendfile('./views/index.html');
+        // db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
+        //     if (err) {
+        //         return next(err);
+        //     }
+        //     res.send(dbResults.rows);
+        // });
     });
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
     app.get('/login', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
         res.sendfile('./views/login.html');
     });
 
     // process the login form
     // app.post('/login', do all our passport stuff here);
 
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
+
     // show the signup form
     app.get('/signup', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
-        //res.render('signup.ejs', { message: req.flash('signupMessage') });
         res.sendfile('./views/signup.html');
     });
 
@@ -62,10 +52,8 @@ module.exports = function(app, passport) {
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function(req, res) {
-        // req.logout();
-        // res.redirect('/');
-
-        res.send(200);
+        req.logout();
+        res.redirect('/');
     });
 };
 

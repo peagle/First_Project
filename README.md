@@ -10,15 +10,12 @@ initialize app with npm and create project structure.
 |   clusters.js
 |   package.json
 |   server.js
-|   webpack.config.js
 |
 |___node_modules
 |   |
 |
 |___app
-|   |   index.js
 |   |   main-route.js
-|   |   users.js
 |
 |___config
 |   auth.js
@@ -37,8 +34,9 @@ initialize app with npm and create project structure.
 |
 |___user
 |   index.js
-|   user.js
+|   user.bl.js
 |   user.test.js
+|   routes.js
 ````
 
 
@@ -85,3 +83,9 @@ initialize app with npm and create project structure.
 * Prevents sniffing attacks on the client Mime Type;
 * Prevents ClickJacking attacks;
 * Protects against XSS (Cross-Site Scripting) attacks.
+
+## Authentication
+* Add **passport** module for API user authentication. This will be used to authenticate every request.
+
+## Session and Cookies
+* Add **express-session** to be our session management middleware. cookies currently stored in nodejs process memory. Later to be converted to Redis.
