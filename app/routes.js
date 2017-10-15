@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const express    = require('express');
+const router     = express.Router();
 const db = require('../config/database-config');
-
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json({ type: 'application/*+json'});
+const bcrypt     = require('bcrypt');
 
 
 router.get('/', function(req, res) {
@@ -51,15 +51,26 @@ router.post('/signup', jsonParser, function(req, ress, next){
     const username  = req.body.username;
     const password  = req.body.password;
 
-    db.query('INSERT INTO sec.user (first_name, last_name, userXname, password_hash) VALUES ($1, $2, $3, $4)',
-        [firstName, lastName, username, password], function(err, res){
 
+    bcrypt.hash(password, 10, function(err, hash) {
         if(err) {
             return next(err);
         }
 
-        ress.send('Success');
+        // Store hash in your password DB.
+        db.query('INSERT INTO sec.user (first_name, last_name, username, password_hash) VALUES ($1, $2, $3, $4)',
+            [firstName, lastName, username, hash], function(err, res){
+                if(err) {
+                    return next(err);
+                }
+
+                ress.send('Success');
+        });
     });
+
+
+
+
 
 });
 
