@@ -87,6 +87,9 @@ initialize app with npm and create project structure.
 * Prevents ClickJacking attacks;
 * Protects against XSS (Cross-Site Scripting) attacks.
 
+## Storing Password
+* Use 'bcrypt' node module to hash user passwords with a 10 salt rounds for better security.
+
 ## Authentication
 * Add **passport** module for API user authentication. This will be used to authenticate every request.
 
