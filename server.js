@@ -1,10 +1,11 @@
 // set up ======================================================================
 require('dotenv/config');
+const path = require('path');
 const express  = require('express');
+const app      = express();
 const bodyParser = require('body-parser');
 const logger   = require('morgan');
-const app      = express();
-const port     = process.env.PORT || 3000;
+const port     = process.env.APP_PORT;
 const cors     = require('cors');
 const corsConfig = require('./config/cors-config');
 const gzipCompression = require('compression');
@@ -13,47 +14,43 @@ const helmet   = require('helmet');
 
 // configuration ===============================================================
 
+app.use(logger('common')); // log every request to the console
 
 // require('./config/passport')(passport); // pass passport for configuration
 
+app.use(bodyParser.json()); // request, response json support middleware
+app.use(bodyParser.urlencoded({extended: true}));
 
-
-// set up our express middleware
-app.use(logger('common')); // log every request to the console
-
-// Helemet  - to secure the app against 8 attacks
-// 1- Configures the Content Security Policy;
-// 2- Removes the header X-Powered-By that informs the name and the version of a server;
-// 3- Configures rules for HTTP Public Key Pinning;
-// 4- Configures rules for HTTP Strict Transport Security;
-// 5- Treats the header X-Download-Options for Internet Explorer 8+;
-// 6- Disables the client-side caching;
-// 7- Prevents sniffing attacks on the client Mime Type;
-// 8- Prevents ClickJacking attacks;
-// 9- Protects against XSS (Cross-Site Scripting) attacks.
-app.use(helmet());
+app.use(helmet()); // Helemet  - to secure the app against 8 attacks
 
 app.use(cors(corsConfig)); // enable CORS and restrict client
+
 app.use(gzipCompression()); // compress requests
 
-app.use(bodyParser.json()); // request, response json support middleware
+app.use(express.static(path.join(__dirname, 'public'))); // load static files
+
+
 //app.use(cookieParser()); // read cookies (needed for auth)
 
 // required for passport
 // app.use(session({ secret: 'fjfuDklkdfiu35dsJKdgmgjeL' })); // session secret
 // app.use(passport.initialize());
 // app.use(passport.session()); // persistent login sessions
-// app.use(flash()); // use connect-flash for flash messages stored in session
 
-// routes ======================================================================
-// load our routes and pass in our app and fully configured passport
-require('./app/main-routes')(app, null);
-//require('./app/routes')(app, passport);
+// Setup ROUTES ================================================================
+
+const mainRoutes = require('./app/routes');
+app.use('/', mainRoutes);
+
+
+const userRoutes = require('./user/routes');
+app.use('/users', userRoutes);
+
 
 // launch ======================================================================
+
 app.listen(port);
 console.log('Server listening on port: ' + port);
-
 
 //==============================================================================
 

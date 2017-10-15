@@ -15,7 +15,7 @@ initialize app with npm and create project structure.
 |   |
 |
 |___app
-|   |   main-route.js
+|   |   routes.js
 |
 |___config
 |   auth.js
@@ -24,8 +24,7 @@ initialize app with npm and create project structure.
 |   passport-config.js
 |
 |___public
-|   |___js
-|       bundle.js
+|   |
 |
 |___views
 |   index.html
