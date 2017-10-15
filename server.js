@@ -1,10 +1,11 @@
 // set up ======================================================================
 require('dotenv/config');
-const path = require('path');
+const path     = require('path');
+const fs       = require('fs');
 const express  = require('express');
 const app      = express();
 const bodyParser = require('body-parser');
-const logger   = require('morgan');
+const morgan   = require('morgan');
 const port     = process.env.APP_PORT;
 const cors     = require('cors');
 const corsConfig = require('./config/cors-config');
@@ -14,7 +15,16 @@ const helmet   = require('helmet');
 
 // configuration ===============================================================
 
-app.use(logger('common')); // log every request to the console
+// HTTP requests errors logging
+if (process.env.NODE_ENV == 'PRODUCTION') {
+    app.use(morgan('common', {
+        stream: fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+    }));
+} else {
+    app.use(morgan('dev'));
+}
+
+
 
 // require('./config/passport')(passport); // pass passport for configuration
 
@@ -28,6 +38,8 @@ app.use(cors(corsConfig)); // enable CORS and restrict client
 app.use(gzipCompression()); // compress requests
 
 app.use(express.static(path.join(__dirname, 'public'))); // load static files
+
+
 
 
 //app.use(cookieParser()); // read cookies (needed for auth)
