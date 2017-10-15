@@ -34,6 +34,18 @@ router.get('/signup', function(req, res) {
 
 router.post('/signup', jsonParser, function(req, ress, next){
 
+    req.checkBody ('firstname','First name is required').notEmpty();
+    req.checkBody ('lastname','Last name is required').notEmpty();
+    req.checkBody ('username','Username is required').notEmpty();
+    req.checkBody ('username','Username must be between 4-20 charecters long').len(4, 20);
+    req.checkBody ('password','Password is required').notEmpty();
+    req.checkBody ('password','Password must be between 4-20 charecters long').len(4, 20);
+
+    const errors = req.validationErrors();
+    if(errors){
+        return next(JSON.stringify(errors));
+    }
+
     const firstName = req.body.firstname;
     const lastName  = req.body.lastname;
     const username  = req.body.username;

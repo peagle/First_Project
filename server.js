@@ -11,7 +11,9 @@ const cors     = require('cors');
 const corsConfig = require('./config/cors-config');
 const gzipCompression = require('compression');
 const helmet   = require('helmet');
-const appErrorHandler = require('./app/app-error-handlers');
+const appErrorHandler  = require('./app/app-error-handlers');
+const expressValidator = require('express-validator');
+
 
 
 // configuration ===============================================================
@@ -29,11 +31,12 @@ if (process.env.NODE_ENV == 'PRODUCTION') {
 app.use(appErrorHandler.clientErrorHandler);
 app.use(appErrorHandler.errorHandler);
 
-
 // require('./config/passport')(passport); // pass passport for configuration
 
 app.use(bodyParser.json()); // request, response json support middleware
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(expressValidator()); //Adds POST validation and sanitization of inputs. Must come after body-parser
 
 app.use(helmet()); // Helemet  - to secure the app against 8 attacks
 
