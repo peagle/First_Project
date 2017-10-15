@@ -14,14 +14,20 @@ module.exports = {
     query: (text, params, callback) => {
         const start = Date.now();
         return pool.query(text, params, (err, res) => {
-            const duration = Date.now() - start;
-            console.log('executed query', { text, duration, rows: res.rowCount });
+            // Uncomment the lines below to log database queries to console
+            // const duration = Date.now() - start;
+            // console.log('executed query', { text, duration, rows: res.rowCount });
             callback(err, res);
         });
     },
 
     getClient: (callback) => {
         pool.connect((err, client, done) => {
+
+            if(err) {
+                return next(err);
+            }
+
             const query = client.query.bind(client);
 
             // monkey patch the query method to keep track of the last query executed9

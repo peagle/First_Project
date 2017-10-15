@@ -16,6 +16,7 @@ initialize app with npm and create project structure.
 |
 |___app
 |   |   routes.js
+|   |   app-error-handlers.js
 |
 |___config
 |   auth.js
@@ -43,7 +44,10 @@ initialize app with npm and create project structure.
 * Add **Express js** framework.
 
 ## Logging
-* Add **Morganjs** logging middleware to Expressjs. Use 'common' for logging instead of 'combine', 'dev', or 'tiny'.
+* Add **Morganjs** logging middleware to Expressjs. Add conditional to morgan logging to log info to file if the environment is 'production' otherwise use console.
+
+## Error Handling
+* Add a module 'app-error-handlers.js' that contains the app error handlers and require/use it in the main file 'server.js'.
 
 ## Database
 * Add postgres database connection to express, use database connection pool for better performance.

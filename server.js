@@ -11,6 +11,7 @@ const cors     = require('cors');
 const corsConfig = require('./config/cors-config');
 const gzipCompression = require('compression');
 const helmet   = require('helmet');
+const appErrorHandler = require('./app/app-error-handlers');
 
 
 // configuration ===============================================================
@@ -24,6 +25,9 @@ if (process.env.NODE_ENV == 'PRODUCTION') {
     app.use(morgan('dev'));
 }
 
+// APP Error handling
+app.use(appErrorHandler.clientErrorHandler);
+app.use(appErrorHandler.errorHandler);
 
 
 // require('./config/passport')(passport); // pass passport for configuration

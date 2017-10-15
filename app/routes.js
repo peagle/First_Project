@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database-config');
 
-var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json({ type: 'application/*+json'});
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json({ type: 'application/*+json'});
 
 
 router.get('/', function(req, res) {
@@ -32,15 +32,19 @@ router.get('/signup', function(req, res) {
 // process the signup form
 // app.post('/signup', do all our passport stuff here);
 
-router.post('/signup', jsonParser, function(req, ress){
+router.post('/signup', jsonParser, function(req, ress, next){
 
     const firstName = req.body.firstname;
-    const lastName = req.body.lastname;
-    const username = req.body.username;
-    const password = req.body.password;
+    const lastName  = req.body.lastname;
+    const username  = req.body.username;
+    const password  = req.body.password;
 
-    db.query('INSERT INTO sec.user (first_name, last_name, username, password_hash) VALUES ($1, $2, $3, $4)',
+    db.query('INSERT INTO sec.user (first_name, last_name, userXname, password_hash) VALUES ($1, $2, $3, $4)',
         [firstName, lastName, username, password], function(err, res){
+
+        if(err) {
+            return next(err);
+        }
 
         ress.send('Success');
     });
