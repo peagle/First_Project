@@ -1,12 +1,12 @@
 const express    = require('express');
 const router     = express.Router();
-const db = require('../config/database-config');
+const db         = require('../config/database-config');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json({ type: 'application/*+json'});
 const bcrypt     = require('bcrypt');
 
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
     res.sendfile('./views/index.html');
     // db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
     //     if (err) {
@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
     // });
 });
 
-router.get('/login', function(req, res) {
+router.get('/login', (req, res) => {
     res.sendfile('./views/login.html');
 });
 
@@ -25,14 +25,14 @@ router.get('/login', function(req, res) {
 
 
 // show the signup form
-router.get('/signup', function(req, res) {
+router.get('/signup', (req, res) => {
     res.sendfile('./views/signup.html');
 });
 
 // process the signup form
 // app.post('/signup', do all our passport stuff here);
 
-router.post('/signup', jsonParser, function(req, ress, next){
+router.post('/signup', jsonParser, (req, ress, next) => {
 
     req.checkBody ('firstname','First name is required').notEmpty();
     req.checkBody ('lastname','Last name is required').notEmpty();
@@ -52,19 +52,22 @@ router.post('/signup', jsonParser, function(req, ress, next){
     const password  = req.body.password;
 
 
-    bcrypt.hash(password, 10, function(err, hash) {
+    bcrypt.hash(password, 10, (err, hash) => {
         if(err) {
             return next(err);
         }
-
         // Store hash in your password DB.
-        db.query('INSERT INTO sec.user (first_name, last_name, username, password_hash) VALUES ($1, $2, $3, $4)',
-            [firstName, lastName, username, hash], function(err, res){
+        db.query('INSERT INTO sec.user (first_name, last_name, username, password_hash) VALUES ($1, $2, $3, $4) returning id',
+            [firstName, lastName, username, hash], (err, res) => {
                 if(err) {
                     return next(err);
                 }
+                const userId = res.rows[0].id;
 
-                ress.send('Success');
+                req.login(userId, (err) => {
+                    if(err) { return next(err); }
+                    ress.redirect('/');
+                });
         });
     });
 

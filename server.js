@@ -47,14 +47,8 @@ app.use(gzipCompression()); // compress requests
 app.use(express.static(path.join(__dirname, 'public'))); // load static files
 
 
+require('./config/auth')(app); // creates cookies and authentication [express-session and passport]
 
-
-//app.use(cookieParser()); // read cookies (needed for auth)
-
-// required for passport
-// app.use(session({ secret: 'fjfuDklkdfiu35dsJKdgmgjeL' })); // session secret
-// app.use(passport.initialize());
-// app.use(passport.session()); // persistent login sessions
 
 // Setup ROUTES ================================================================
 
