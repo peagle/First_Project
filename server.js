@@ -31,7 +31,6 @@ if (process.env.NODE_ENV == 'PRODUCTION') {
 app.use(appErrorHandler.clientErrorHandler);
 app.use(appErrorHandler.errorHandler);
 
-// require('./config/passport')(passport); // pass passport for configuration
 
 app.use(bodyParser.json()); // request, response json support middleware
 app.use(bodyParser.urlencoded({extended: true}));

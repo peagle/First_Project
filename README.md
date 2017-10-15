@@ -22,7 +22,6 @@ initialize app with npm and create project structure.
 |   auth.js
 |   cors-config.js
 |   database-config.js
-|   passport-config.js
 |
 |___public
 |   |
@@ -94,4 +93,9 @@ initialize app with npm and create project structure.
 * Add **passport** module for API user authentication. This will be used to authenticate every request.
 
 ## Session and Cookies
-* Add **express-session** to be our session management middleware. cookies currently stored in nodejs process memory. Later to be converted to Redis.
+* Add **express-session** to be our session management middleware.
+
+## Session Storage Redis
+* Add 'redis' client to server machine.
+* Add 'node_redis' as nodejs client for Redis.
+* Add 'connect-redis' and configure app session to connect to redis db to store sessions.
