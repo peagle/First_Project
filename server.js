@@ -1,4 +1,5 @@
 // set up ======================================================================
+
 require('dotenv/config');
 const path     = require('path');
 const fs       = require('fs');
@@ -6,7 +7,6 @@ const express  = require('express');
 const app      = express();
 const bodyParser = require('body-parser');
 const morgan   = require('morgan');
-const port     = process.env.APP_PORT;
 const cors     = require('cors');
 const corsConfig = require('./config/cors-config');
 const gzipCompression = require('compression');
@@ -45,8 +45,12 @@ app.use(gzipCompression()); // compress requests
 
 app.use(express.static(path.join(__dirname, 'public'))); // load static files
 
-
 require('./config/auth')(app); // creates cookies and authentication [express-session and passport]
+
+app.use( (req, res, next) => {
+    res.locals.isAuthenticated = req.isAuthenticated();
+    next();
+})
 
 
 // Setup ROUTES ================================================================
@@ -61,8 +65,8 @@ app.use('/users', userRoutes);
 
 // launch ======================================================================
 
-app.listen(port);
-console.log('Server listening on port: ' + port);
+app.listen(process.env.APP_PORT);
+console.log('Server listening on port: ' + process.env.APP_PORT);
 
 //==============================================================================
 

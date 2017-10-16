@@ -1,8 +1,10 @@
-const session    = require('express-session');
-const passport   = require('passport');
-const redis      = require('redis');
-const RedisStore = require('connect-redis')(session);
-
+const session       = require('express-session');
+const passport      = require('passport');
+const redis         = require('redis');
+const SessionStore  = require('connect-redis')(session);
+const LocalStrategy = require('passport-local').Strategy;
+const db            = require('../config/database-config');
+const bcrypt        = require('bcrypt');
 
 function generateRandomString(strLength) {
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?.0123456789";
@@ -18,7 +20,7 @@ module.exports = function(app){
 
     const redisClient = redis.createClient();
     app.use(session({
-        store: new RedisStore({host:process.env.REDIS_HOST, port:process.env.REDIS_PORT,  client: redisClient}),
+        store: new SessionStore({host:process.env.REDIS_HOST, port:process.env.REDIS_PORT,  client: redisClient}),
         secret: generateRandomString(17),
         resave: false,
         saveUninitialized: false
@@ -34,6 +36,30 @@ module.exports = function(app){
         next(); // otherwise continue
     });
 
+    // passport config
+    passport.use(new LocalStrategy( (username, password, done) => {
+        db.query('SELECT * FROM sec.user WHERE username = $1', [username], (err, results) => {
+            if(err) {
+                return done(err);
+            }
+            if(results.rows.length === 0){
+                done(null, false);
+            }else{
+                const user = results.rows[0];
+                const hash = user.password_hash.toString();
+
+                bcrypt.compare(password, hash, (err, response) => {
+                    if(response === true){
+                        return done(null, {user_id: user.id});
+                    }else{
+                        return done(null, false);
+                    }
+                });
+
+
+            }
+        });
+    }));
 
     passport.serializeUser((userId, done) => {
         done(null, userId);

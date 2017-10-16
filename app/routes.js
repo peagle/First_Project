@@ -4,33 +4,34 @@ const db         = require('../config/database-config');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json({ type: 'application/*+json'});
 const bcrypt     = require('bcrypt');
+const passport   = require('passport');
 
 
 router.get('/', (req, res) => {
     res.sendfile('./views/index.html');
-    // db.query('SELECT * FROM sec.user', null, (err, dbResults) => {
-    //     if (err) {
-    //         return next(err);
-    //     }
-    //     res.send(dbResults.rows);
-    // });
 });
+
+//region LOGIN
 
 router.get('/login', (req, res) => {
     res.sendfile('./views/login.html');
 });
 
-// process the login form
-// app.post('/login', do all our passport stuff here);
+router.post('/login', passport.authenticate(
+    'local', {
+        successRedirect: '/users/profile',
+        failureRedirect:'/login'
+    }
+));
 
+//endregion
+
+//region SINGUP
 
 // show the signup form
 router.get('/signup', (req, res) => {
     res.sendfile('./views/signup.html');
 });
-
-// process the signup form
-// app.post('/signup', do all our passport stuff here);
 
 router.post('/signup', jsonParser, (req, ress, next) => {
 
@@ -74,39 +75,17 @@ router.post('/signup', jsonParser, (req, ress, next) => {
 
 });
 
-// =====================================
-// PROFILE SECTION =====================
-// =====================================
-// we will want this protected so you have to be logged in to visit
-// we will use route middleware to verify this (the isLoggedIn function)
-router.get('/profile', isLoggedIn, function(req, res) {
-    // res.render('profile.ejs', {
-    //     user : req.user // get the user out of session and pass to template
-    // });
+//endregion
 
-    res.send(200);
-});
+//region LOGOUT
 
-// =====================================
-// LOGOUT ==============================
-// =====================================
 router.get('/logout', function(req, res) {
     req.logout();
+    req.session.destroy();
     res.redirect('/');
 });
 
-
-
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
+//endregion
 
 
 module.exports = router;
