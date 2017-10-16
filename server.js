@@ -27,13 +27,17 @@ if (process.env.NODE_ENV == 'PRODUCTION') {
     app.use(morgan('dev'));
 }
 
+// View engine setup - server side render
+require('./config/view-engine')(app);
+
 // APP Error handling
 app.use(appErrorHandler.clientErrorHandler);
 app.use(appErrorHandler.errorHandler);
 
-
 app.use(bodyParser.json()); // request, response json support middleware
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.static(path.join(__dirname, 'public'))); // load static files
 
 app.use(expressValidator()); //Adds POST validation and sanitization of inputs. Must come after body-parser
 
@@ -43,14 +47,7 @@ app.use(cors(corsConfig)); // enable CORS and restrict client
 
 app.use(gzipCompression()); // compress requests
 
-app.use(express.static(path.join(__dirname, 'public'))); // load static files
-
 require('./config/auth')(app); // creates cookies and authentication [express-session and passport]
-
-app.use( (req, res, next) => {
-    res.locals.isAuthenticated = req.isAuthenticated();
-    next();
-})
 
 
 // Setup ROUTES ================================================================
@@ -64,6 +61,8 @@ app.use('/users', userRoutes);
 
 
 // launch ======================================================================
+
+app.use(appErrorHandler.error404);
 
 app.listen(process.env.APP_PORT);
 console.log('Server listening on port: ' + process.env.APP_PORT);

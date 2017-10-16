@@ -99,3 +99,6 @@ initialize app with npm and create project structure.
 * Add 'redis' client to server machine.
 * Add 'node_redis' as nodejs client for Redis.
 * Add 'connect-redis' and configure app session to connect to redis db to store sessions.
+
+## Server View Engine - Html Templates on Server
+* Add 'hbs' module to the app to render templates and partials on the server.

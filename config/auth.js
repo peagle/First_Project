@@ -16,7 +16,7 @@ function generateRandomString(strLength) {
     return text.join();
 }
 
-module.exports = function(app){
+module.exports = (app) => {
 
     const redisClient = redis.createClient();
     app.use(session({
@@ -55,8 +55,6 @@ module.exports = function(app){
                         return done(null, false);
                     }
                 });
-
-
             }
         });
     }));
@@ -67,5 +65,10 @@ module.exports = function(app){
 
     passport.deserializeUser((userId, done) => {
         done(null, userId);
+    });
+
+    app.use( (req, res, next) => {
+        res.locals.isAuthenticated = req.isAuthenticated();
+        next();
     });
 };

@@ -8,18 +8,18 @@ const passport   = require('passport');
 
 
 router.get('/', (req, res) => {
-    res.sendfile('./views/index.html');
+    res.render('index', {title: 'Portfolio'});
 });
 
 //region LOGIN
 
 router.get('/login', (req, res) => {
-    res.sendfile('./views/login.html');
+    res.render('login', {title: 'Portfolio'});
 });
 
 router.post('/login', passport.authenticate(
     'local', {
-        successRedirect: '/users/profile',
+        successRedirect:'/users/profile',
         failureRedirect:'/login'
     }
 ));
@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate(
 
 // show the signup form
 router.get('/signup', (req, res) => {
-    res.sendfile('./views/signup.html');
+    res.render('signup', {title: 'Portfolio'});
 });
 
 router.post('/signup', jsonParser, (req, ress, next) => {

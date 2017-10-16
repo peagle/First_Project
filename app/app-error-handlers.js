@@ -18,6 +18,12 @@ module.exports = {
         }
         res.status(500);
         res.render('error', { error: err });
-    }
+    },
+
+    error404: (req, res, next) => {
+        const err = new Error('Not Found');
+        err.status = 404;
+        res.render('error', { error:err });
+    },
 };
 
