@@ -19,23 +19,29 @@ initialize app with npm and create project structure.
 |   |   app-error-handlers.js
 |
 |___config
-|   auth.js
-|   cors-config.js
-|   database-config.js
+|   |   auth.js
+|   |   cors-config.js
+|   |   database-config.js
 |
 |___public
 |   |
 |
 |___views
-|   index.html
-|   signup.html
-|   login.html
+|   |
+|   |    index.hbs
+|   |    signup.hbs
+|   |    login.hbs
+|   |    error.hbs
+|   |    |___partials
+|   |           |   header.hbs
+|   |           |   footer.hbs
+|   |           |   footer-end.hbs
 |
 |___user
-|   index.js
-|   user.bl.js
-|   user.test.js
-|   routes.js
+|   |   index.js
+|   |   user.bl.js
+|   |   user.test.js
+|   |   routes.js
 ````
 
 
