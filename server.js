@@ -64,8 +64,10 @@ app.use('/users', userRoutes);
 
 app.use(appErrorHandler.error404);
 
-app.listen(process.env.APP_PORT);
-console.log('Server listening on port: ' + process.env.APP_PORT);
+app.listen(process.env.APP_PORT, process.env.APP_HOST);
+console.log('Server Listening on %s:%d...', process.env.APP_HOST || '*', process.env.APP_PORT);
+
+module.exports = app;
 
 //==============================================================================
 

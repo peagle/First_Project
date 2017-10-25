@@ -27,21 +27,21 @@ initialize app with npm and create project structure.
 |   |
 |
 |___views
-|   |
 |   |    index.hbs
 |   |    signup.hbs
 |   |    login.hbs
 |   |    error.hbs
 |   |    |___partials
-|   |           |   header.hbs
-|   |           |   footer.hbs
-|   |           |   footer-end.hbs
+|   |    |      |   header.hbs
+|   |    |      |   footer.hbs
+|   |    |      |   footer-end.hbs
 |
 |___user
 |   |   index.js
 |   |   user.bl.js
-|   |   user.test.js
 |   |   routes.js
+|   |   |___test
+|   |   |   |   user.test.js
 ````
 
 
